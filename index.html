@@ -1023,6 +1023,334 @@
     .centerpiece { padding: 24px; }
   }
 
+  /* ---------- DEMO / VIDEO ---------- */
+  .demo-layout {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .demo-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-1-soft);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .demo-frame.portrait { aspect-ratio: 9 / 16; max-width: 360px; margin: 0 auto; }
+  .demo-frame iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .demo-frame .corner {
+    position: absolute;
+    width: 14px; height: 14px;
+    border-color: var(--accent);
+    border-style: solid;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .demo-frame .corner.tl { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  .demo-frame .corner.tr { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+  .demo-frame .corner.bl { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+  .demo-frame .corner.br { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+  .demo-caption {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .demo-caption .label { color: var(--fg); }
+  .demo-caption .meta { color: var(--accent); }
+  @media (max-width: 900px) {
+    .demo-layout { grid-template-columns: 1fr; }
+    .demo-frame.portrait { max-width: 100%; aspect-ratio: 9/16; }
+  }
+
+  /* ---------- DECK / PRESENTATION ---------- */
+  .deck {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-0);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .deck .corner {
+    position: absolute;
+    width: 16px; height: 16px;
+    border-color: var(--accent);
+    border-style: solid;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .deck .corner.tl { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+  .deck .corner.tr { top: -1px; right: -1px; border-width: 1px 1px 0 0; }
+  .deck .corner.bl { bottom: -1px; left: -1px; border-width: 0 0 1px 1px; }
+  .deck .corner.br { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+  .deck-slide {
+    position: absolute; inset: 0;
+    padding: clamp(24px, 4%, 56px);
+    display: flex; flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    overflow: hidden;
+  }
+  .deck-slide.active { opacity: 1; pointer-events: auto; }
+
+  .deck-slide-head {
+    display: flex; align-items: baseline; gap: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: clamp(16px, 3%, 32px);
+  }
+  .deck-slide-num {
+    color: var(--accent);
+    font-size: clamp(10px, 1vw, 12px);
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+  .deck-slide-tag {
+    color: var(--fg-muted);
+    font-size: clamp(9px, 0.9vw, 11px);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  .deck-slide h2 {
+    font-size: clamp(20px, 3vw, 38px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .deck-slide h2 .acc { color: var(--accent); }
+  .deck-slide .lead {
+    font-size: clamp(13px, 1.4vw, 17px);
+    line-height: 1.5;
+    color: var(--fg-dim);
+    max-width: 64ch;
+    margin-top: 12px;
+  }
+  .deck-slide .lead .fg { color: var(--fg); }
+
+  .deck-body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+  .deck-title-stage {
+    flex: 1;
+    display: flex; flex-direction: column;
+    justify-content: center;
+  }
+  .deck-title-stage .super {
+    color: var(--accent);
+    font-size: clamp(11px, 1vw, 13px);
+    letter-spacing: 0.3em;
+    margin-bottom: clamp(12px, 2vh, 24px);
+  }
+  .deck-title-stage h1 {
+    font-size: clamp(36px, 6vw, 80px);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  .deck-title-stage h1 .red { color: var(--accent); }
+  .deck-title-stage .foot {
+    margin-top: auto;
+    padding-top: 24px;
+    color: var(--fg-muted);
+    font-size: clamp(10px, 1vw, 12px);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: flex; gap: 24px;
+  }
+
+  .deck-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    flex: 1;
+  }
+  .deck-3col > div {
+    background: var(--bg-0);
+    padding: clamp(14px, 2%, 24px);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .deck-3col .k { color: var(--accent); font-size: clamp(9px, 0.9vw, 11px); letter-spacing: 0.2em; }
+  .deck-3col .v { font-size: clamp(14px, 1.8vw, 20px); font-weight: 500; line-height: 1.2; }
+  .deck-3col .d { color: var(--fg-dim); font-size: clamp(10px, 1.1vw, 12px); line-height: 1.5; margin-top: 4px; }
+
+  .deck-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(16px, 2.4%, 32px);
+    flex: 1;
+    min-height: 0;
+  }
+  .deck-split-img {
+    background: var(--bg-1-soft);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    position: relative;
+  }
+  .deck-split-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .deck-split-body {
+    display: flex; flex-direction: column; gap: 16px;
+    overflow-y: auto;
+  }
+  .deck-list {
+    display: flex; flex-direction: column; gap: clamp(6px, 1vh, 12px);
+  }
+  .deck-list-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 14px;
+    padding: clamp(6px, 1vh, 10px) 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    font-size: clamp(11px, 1.1vw, 13px);
+  }
+  .deck-list-row .idx { color: var(--accent); font-size: clamp(9px, 0.9vw, 11px); letter-spacing: 0.15em; }
+  .deck-list-row .label { color: var(--fg-dim); }
+  .deck-list-row .value { color: var(--fg); font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
+
+  .deck-bugs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(12px, 1.6%, 20px);
+    flex: 1;
+  }
+  .deck-bugs .b {
+    border: 1px solid var(--rule);
+    background: var(--bg-1-soft);
+    padding: clamp(14px, 2%, 22px);
+    display: flex; flex-direction: column; gap: 10px;
+    position: relative;
+  }
+  .deck-bugs .b::before {
+    content: ''; position: absolute; top: -1px; left: -1px;
+    width: 32px; height: 2px; background: var(--accent);
+  }
+  .deck-bugs .b-id { color: var(--accent); font-size: clamp(9px, 0.9vw, 11px); letter-spacing: 0.2em; }
+  .deck-bugs .b-t { font-size: clamp(13px, 1.4vw, 17px); font-weight: 500; line-height: 1.25; }
+  .deck-bugs .b-d { color: var(--fg-dim); font-size: clamp(10px, 1.1vw, 12px); line-height: 1.5; }
+
+  .deck-fabric {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: clamp(16px, 2.5%, 32px);
+    align-items: center;
+  }
+  .deck-fabric-node {
+    border: 1px solid var(--rule);
+    background: var(--bg-1-soft);
+    padding: clamp(16px, 2.5%, 26px);
+  }
+  .deck-fabric-node .k { color: var(--fg-muted); font-size: clamp(9px, 0.9vw, 11px); letter-spacing: 0.2em; }
+  .deck-fabric-node .v { color: var(--accent); font-size: clamp(22px, 3.2vw, 38px); font-weight: 500; margin: 8px 0 12px; letter-spacing: -0.02em; }
+  .deck-fabric-node .d { color: var(--fg-dim); font-size: clamp(11px, 1.1vw, 13px); line-height: 1.5; }
+  .deck-fabric-arrow {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+    color: var(--accent);
+  }
+  .deck-fabric-arrow .lbl { font-size: clamp(9px, 0.9vw, 11px); letter-spacing: 0.2em; }
+  .deck-fabric-arrow .ln {
+    width: clamp(60px, 7vw, 100px); height: 1px;
+    background: var(--accent);
+    position: relative;
+  }
+  .deck-fabric-arrow .ln::after {
+    content: '►'; position: absolute; right: -2px; top: 50%;
+    transform: translateY(-50%); color: var(--accent); font-size: 10px; line-height: 1;
+  }
+
+  .deck-status {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(16px, 2%, 24px);
+    flex: 1;
+  }
+  .deck-status-col {
+    border: 1px solid var(--rule);
+    background: var(--bg-1-soft);
+    padding: clamp(14px, 2%, 22px);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .deck-status-col.ok { border-top: 2px solid #7CFF6B; }
+  .deck-status-col.bk { border-top: 2px solid var(--accent); }
+  .deck-status-col .h {
+    display: flex; gap: 10px; align-items: baseline;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+    font-size: clamp(12px, 1.3vw, 15px);
+    font-weight: 500;
+  }
+  .deck-status-col.ok .h .ico { color: #7CFF6B; }
+  .deck-status-col.bk .h .ico { color: var(--accent); }
+  .deck-status-col .it {
+    display: flex; flex-direction: column; gap: 3px;
+    font-size: clamp(11px, 1.1vw, 13px);
+  }
+  .deck-status-col .it-t { font-weight: 500; }
+  .deck-status-col .it-d { color: var(--fg-dim); font-size: clamp(10px, 1vw, 12px); line-height: 1.5; }
+
+  /* Deck chrome */
+  .deck-controls {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+  }
+  .deck-nav { display: flex; gap: 8px; align-items: center; }
+  .deck-btn {
+    appearance: none;
+    background: var(--bg-1-soft);
+    border: 1px solid var(--rule);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .deck-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .deck-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .deck-counter {
+    color: var(--fg-muted);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    font-variant-numeric: tabular-nums;
+  }
+  .deck-counter .cur { color: var(--accent); }
+  .deck-dots {
+    display: flex; gap: 6px;
+  }
+  .deck-dot {
+    width: 24px; height: 2px;
+    background: var(--rule);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .deck-dot:hover { background: var(--fg-muted); }
+  .deck-dot.active { background: var(--accent); }
+
   /* ---------- BOM ---------- */
   .bom-stats {
     display: grid;
@@ -1180,9 +1508,11 @@
       <a class="nav-link" href="#firmware"><span class="num">03</span>FIRMWARE</a>
       <a class="nav-link" href="#debug"><span class="num">04</span>DEBUG</a>
       <a class="nav-link" href="#status"><span class="num">05</span>STATUS</a>
-      <a class="nav-link" href="#bom"><span class="num">06</span>BOM</a>
-      <a class="nav-link" href="#gallery"><span class="num">07</span>GALLERY</a>
-      <a class="nav-link" href="#downloads"><span class="num">08</span>FILES</a>
+      <a class="nav-link" href="#demo"><span class="num">06</span>DEMO</a>
+      <a class="nav-link" href="#deck"><span class="num">07</span>DECK</a>
+      <a class="nav-link" href="#bom"><span class="num">08</span>BOM</a>
+      <a class="nav-link" href="#gallery"><span class="num">09</span>GALLERY</a>
+      <a class="nav-link" href="#downloads"><span class="num">10</span>FILES</a>
     </div>
   </div>
 </div>
@@ -1649,16 +1979,378 @@
       </div>
       <div class="status-row">
         <div class="status-row-h">CRSF Radio</div>
-        <div class="status-row-b">Header on the board, parser scoped. Deferred &mdash; same root cause. No point parsing setpoints with nothing to drive.</div>
+        <div class="status-row-b">Header on the board, parser scoped. Binding performed.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- BOM -->
-<section id="bom" data-screen-label="06 BOM">
+<!-- DEMO -->
+<section id="demo" data-screen-label="06 Demo">
   <div class="section-head reveal">
     <span class="section-num">/ 06</span>
+    <h2 class="section-title">Demo &amp; Bench Footage</h2>
+    <span class="section-meta">02 CLIPS · YOUTUBE</span>
+  </div>
+
+  <div class="demo-layout">
+    <div class="reveal">
+      <div class="demo-frame">
+        <span class="corner tl"></span>
+        <span class="corner tr"></span>
+        <span class="corner bl"></span>
+        <span class="corner br"></span>
+        <iframe
+          src="https://www.youtube.com/embed/Q8XxtzizOvU?rel=0"
+          title="Drone bench demo — full walkthrough"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="demo-caption">
+        <span class="label">[ 01 · LONG · FULL WALKTHROUGH ]</span>
+        <span class="meta">SRC // YOUTUBE</span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="demo-frame portrait">
+        <span class="corner tl"></span>
+        <span class="corner tr"></span>
+        <span class="corner bl"></span>
+        <span class="corner br"></span>
+        <iframe
+          src="https://www.youtube.com/embed/2goV2VX-Gms?rel=0"
+          title="Drone short clip"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="demo-caption">
+        <span class="label">[ 02 · SHORT · QUICK CUT ]</span>
+        <span class="meta">SRC // YOUTUBE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DECK / PRESENTATION -->
+<section id="deck" data-screen-label="07 Deck">
+  <div class="section-head reveal">
+    <span class="section-num">/ 07</span>
+    <h2 class="section-title">Project Deliverables</h2>
+    <span class="section-meta">10 SLIDES · EMBEDDED DECK</span>
+  </div>
+
+  <div class="deck reveal" id="deck">
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+
+    <!-- Slide 01: Title -->
+    <div class="deck-slide active" data-slide="1">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 01 — TITLE</span>
+        <span class="deck-slide-tag">ELEC 327 · SP26</span>
+      </div>
+      <div class="deck-body deck-title-stage">
+        <div class="super">PROJECT // 00</div>
+        <h1>BARE-METAL<br><span class="red">FLIGHT-CTRL</span></h1>
+        <div class="foot">
+          <span>RICE UNIVERSITY</span>
+          <span>CALEB KEMERE · ELEC 327</span>
+          <span>SP26 FINAL</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 02: Deliverables Overview -->
+    <div class="deck-slide" data-slide="2">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 02 — DELIVERABLES</span>
+        <span class="deck-slide-tag">WHAT WE BUILT</span>
+      </div>
+      <h2>Three major deliverables, <span class="acc">all from scratch.</span></h2>
+      <p class="lead">A custom flight controller for a micro-whoop quadcopter — hardware, firmware, and a register-level DMA implementation that's not covered anywhere in the lab.</p>
+      <div class="deck-3col" style="margin-top:24px">
+        <div>
+          <span class="k">/ DELIV.01</span>
+          <span class="v">Custom PCB</span>
+          <span class="d">4-layer mixed-signal board. MSPM0G3507 + ICM-42688-P + LDO + 4-motor DShot harness on one square inch.</span>
+        </div>
+        <div>
+          <span class="k">/ DELIV.02</span>
+          <span class="v">933 SLOC Firmware</span>
+          <span class="d">6 modules, zero external dependencies. Hand-written against the MSPM0 silicon in Code Composer Studio.</span>
+        </div>
+        <div>
+          <span class="k">/ DELIV.03</span>
+          <span class="v">DMA + Event Fabric</span>
+          <span class="d">Zero-CPU motor transmits. Four DMA channels, one timer event, lockstep DShot300 across all four motors.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 03: Custom PCB -->
+    <div class="deck-slide" data-slide="3">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 03 — HARDWARE</span>
+        <span class="deck-slide-tag">DELIV.01 · CUSTOM PCB</span>
+      </div>
+      <div class="deck-split">
+        <div class="deck-split-img">
+          <img src="assets/FrontFullPCB.jpg" alt="Assembled PCB">
+        </div>
+        <div class="deck-split-body">
+          <h2 style="font-size:clamp(18px, 2.2vw, 26px);">A 1×1-inch flight controller.</h2>
+          <div class="deck-list">
+            <div class="deck-list-row"><span class="idx">H.01</span><span class="label">Stack</span><span class="value">4-layer mixed signal</span></div>
+            <div class="deck-list-row"><span class="idx">H.02</span><span class="label">MCU</span><span class="value">MSPM0G3507 · ARM Cortex-M0+</span></div>
+            <div class="deck-list-row"><span class="idx">H.03</span><span class="label">IMU</span><span class="value">ICM-42688-P (6-DoF)</span></div>
+            <div class="deck-list-row"><span class="idx">H.04</span><span class="label">Regulator</span><span class="value">LT1763CS8-3.3 LDO</span></div>
+            <div class="deck-list-row"><span class="idx">H.05</span><span class="label">Motor I/O</span><span class="value">4&times; DShot → JST 8-pin</span></div>
+            <div class="deck-list-row"><span class="idx">H.06</span><span class="label">Self-powered</span><span class="value">2S LiPo · untethered</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 04: Firmware Architecture -->
+    <div class="deck-slide" data-slide="4">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 04 — FIRMWARE</span>
+        <span class="deck-slide-tag">DELIV.02 · 933 SLOC</span>
+      </div>
+      <h2>Bare metal, no HAL, no RTOS.</h2>
+      <p class="lead">Six modules · written against direct register access · every diagnostic state is a <span class="fg">volatile</span> readable over SWD.</p>
+      <div class="deck-3col" style="margin-top:24px">
+        <div>
+          <span class="k">/ DRIVER</span>
+          <span class="v">dshot.c</span>
+          <span class="d">DShot300 · 4 motors · DMA + event fabric. 282 SLOC.</span>
+        </div>
+        <div>
+          <span class="k">/ DRIVER</span>
+          <span class="v">imu.c</span>
+          <span class="d">ICM-42688-P over SPI1. Soft-reset, low-noise gyro, 1 kHz polled burst.</span>
+        </div>
+        <div>
+          <span class="k">/ FALLBACK</span>
+          <span class="v">pwm.c</span>
+          <span class="d">50 Hz servo PWM. Built to bisect MCU vs. ESC. Kept compilable.</span>
+        </div>
+        <div>
+          <span class="k">/ UTIL</span>
+          <span class="v">delay.c</span>
+          <span class="d">Cycle-accurate busy-wait. TI BSD-3 reproduction.</span>
+        </div>
+        <div>
+          <span class="k">/ MAIN</span>
+          <span class="v">dshot_test.c</span>
+          <span class="d">10 kHz scheduler. Staged motor diagnostic + PIN_WALK_TEST.</span>
+        </div>
+        <div>
+          <span class="k">/ MAIN</span>
+          <span class="v">pwm_test.c</span>
+          <span class="d">Alternate main. Excluded from build during bring-up.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 05: DMA + Event Fabric -->
+    <div class="deck-slide" data-slide="5">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 05 — CENTERPIECE</span>
+        <span class="deck-slide-tag">DELIV.03 · DMA + EVENT FABRIC</span>
+      </div>
+      <h2>One timer event drives <span class="acc">four motors</span>.</h2>
+      <p class="lead">The MSPM0's event fabric is an on-chip publish/subscribe bus. <span class="fg">TIMA1's Z event</span> publishes onto fabric channel&nbsp;1. Four DMA channels subscribe and tick in lockstep — the CPU stages one 17-halfword buffer per millisecond and goes idle.</p>
+      <div class="deck-fabric" style="margin-top:20px">
+        <div class="deck-fabric-node">
+          <div class="k">PUBLISHER</div>
+          <div class="v">TIMA1</div>
+          <div class="d">Z event every 53 ticks ≈ 3.31 µs</div>
+        </div>
+        <div class="deck-fabric-arrow">
+          <span class="lbl">FABRIC CH 1</span>
+          <span class="ln"></span>
+        </div>
+        <div class="deck-fabric-node">
+          <div class="k">SUBSCRIBERS</div>
+          <div class="v">DMA × 4</div>
+          <div class="d">One per motor. CCUPD = IMMEDIATE.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 06: DShot300 Bit Timing -->
+    <div class="deck-slide" data-slide="6">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 06 — BIT TIMING</span>
+        <span class="deck-slide-tag">DSHOT300 PROTOCOL</span>
+      </div>
+      <h2>Cycle-accurate at 16 MHz.</h2>
+      <p class="lead">Each motor pin is driven by a timer compare-match. The whole bit period is 53 ticks long at 62.5&nbsp;ns each — a&nbsp;'1' holds the line HIGH for 39 of those, a&nbsp;'0' for 19.</p>
+      <div class="deck-3col" style="margin-top:24px">
+        <div>
+          <span class="k">/ LOAD</span>
+          <span class="v">53 ticks</span>
+          <span class="d">Period ≈ 3.31 µs → 300 kbit/s</span>
+        </div>
+        <div>
+          <span class="k">/ BIT1 HIGH</span>
+          <span class="v">39 ticks</span>
+          <span class="d">≈ 2.44 µs</span>
+        </div>
+        <div>
+          <span class="k">/ BIT0 HIGH</span>
+          <span class="v">19 ticks</span>
+          <span class="d">≈ 1.19 µs</span>
+        </div>
+        <div>
+          <span class="k">/ FRAME</span>
+          <span class="v">16 bits</span>
+          <span class="d">11 throttle + 1 telem + 4 CRC</span>
+        </div>
+        <div>
+          <span class="k">/ BUFFER</span>
+          <span class="v">17 halfwords</span>
+          <span class="d">16 bit-CCs + 1 trailing QUIET</span>
+        </div>
+        <div>
+          <span class="k">/ IDLE</span>
+          <span class="v">GPIO LOW</span>
+          <span class="d">Pins re-mux'd to PF=1 between frames</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 07: Three Bugs -->
+    <div class="deck-slide" data-slide="7">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 07 — DEBUG LOG</span>
+        <span class="deck-slide-tag">03 BUGS · ALL FIXED 2026.05.15</span>
+      </div>
+      <h2>Three silicon-level bugs, <span class="acc">no scope.</span></h2>
+      <p class="lead">Every fault diagnosed through SWD-attached register inspection. The methodology: form a hypothesis, watch a counter, ratify or reject.</p>
+      <div class="deck-bugs" style="margin-top:20px">
+        <div class="b">
+          <span class="b-id">BUG · A</span>
+          <div class="b-t">CCPD default = INPUT</div>
+          <div class="b-d">Every GPTimer's per-pin direction register defaults to INPUT on reset. Compare engine ran, pad mux stayed disconnected. Fix: explicit OUTPUT in <span style="color:var(--accent)">dshot_init_one_timer()</span>.</div>
+        </div>
+        <div class="b">
+          <span class="b-id">BUG · B</span>
+          <div class="b-t">Trailing-HIGH idle</div>
+          <div class="b-d">Line stayed HIGH ~43&nbsp;µs after every frame. BLHeli_S refused to lock onto a non-idle idle. Fix: re-mux pins to GPIO LOW after DMA completion.</div>
+        </div>
+        <div class="b">
+          <span class="b-id">BUG · C</span>
+          <div class="b-t">DMA/Z race on bit 15</div>
+          <div class="b-d">~5-cycle window between DMA-enable and Z-clear caused 10–20% of frames to silently consume bit 15. Fix: two-stage Z sync.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 08: SWD Diagnostics -->
+    <div class="deck-slide" data-slide="8">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 08 — METHODOLOGY</span>
+        <span class="deck-slide-tag">SWD-FIRST DEBUG</span>
+      </div>
+      <h2><span class="acc">No print.</span> No scope. Just counters that climb.</h2>
+      <p class="lead">Every meaningful internal state is a <code style="color:var(--accent);background:rgba(255,77,77,0.06);padding:1px 5px">volatile</code> at file scope. Attaching the SWD debugger and opening a CCS Expressions watch is the entire diagnostic surface.</p>
+      <div class="deck-3col" style="margin-top:24px">
+        <div>
+          <span class="k">/ DSHOT</span>
+          <span class="v" style="font-size:clamp(11px,1.2vw,14px);line-height:1.5">dshot_frames_started ↑ 1000/s<br>dshot_align_misses = 0<br>dshot_dbg_tima1_ccpd = 0x3</span>
+        </div>
+        <div>
+          <span class="k">/ IMU</span>
+          <span class="v" style="font-size:clamp(11px,1.2vw,14px);line-height:1.5">imu_who_am_i_seen = 0x47<br>imu_sample_count ↑ 1000/s<br>imu_read_failures = 0</span>
+        </div>
+        <div>
+          <span class="k">/ SCHEDULER</span>
+          <span class="v" style="font-size:clamp(11px,1.2vw,14px);line-height:1.5">tick_count_10khz ↑ 10000/s<br>diag_phase = 0..3<br>pinwalk_ok = 1,1,1,1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 09: Status -->
+    <div class="deck-slide" data-slide="9">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 09 — STATUS</span>
+        <span class="deck-slide-tag">HONEST POSTMORTEM</span>
+      </div>
+      <h2>What works. What doesn't. Why.</h2>
+      <div class="deck-status" style="margin-top:20px">
+        <div class="deck-status-col ok">
+          <div class="h"><span class="ico">✓</span><span>VERIFIED</span></div>
+          <div class="it">
+            <div class="it-t">IMU subsystem</div>
+            <div class="it-d">WHO_AM_I = 0x47. 1 kHz polled samples, no failures.</div>
+          </div>
+          <div class="it">
+            <div class="it-t">DShot driver (register-level)</div>
+            <div class="it-d">Frames started climbing at 1 kHz. CCPD masks correct. Two-stage Z sync locks every frame.</div>
+          </div>
+          <div class="it">
+            <div class="it-t">Standalone power &amp; scheduler</div>
+            <div class="it-d">10 kHz scheduler stable on the 2S pack, untethered.</div>
+          </div>
+        </div>
+        <div class="deck-status-col bk">
+          <div class="h"><span class="ico">×</span><span>BLOCKED</span></div>
+          <div class="it">
+            <div class="it-t">Motor actuation</div>
+            <div class="it-d">ESC never locked. Driver passes every SWD check; next step is probing the wire with a logic analyzer.</div>
+          </div>
+          <div class="it">
+            <div class="it-t">Gyro PID</div>
+            <div class="it-d">Not started. Needs PT1 / biquad LPF first. No actuator to close on.</div>
+          </div>
+          <div class="it">
+            <div class="it-t">CRSF radio</div>
+            <div class="it-d">Header on the board, parser scoped. Binding performed.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Closing -->
+    <div class="deck-slide" data-slide="10">
+      <div class="deck-slide-head">
+        <span class="deck-slide-num">/ 10 — NEXT</span>
+        <span class="deck-slide-tag">FUTURE WORK</span>
+      </div>
+      <div class="deck-body deck-title-stage">
+        <div class="super">SHIPPED · OUTSTANDING · ROADMAP</div>
+        <h1 style="font-size:clamp(28px, 4.5vw, 60px)">The next 100&nbsp;hours <span class="red">live on a Saleae.</span></h1>
+        <p class="lead" style="margin-top:20px;font-size:clamp(13px,1.4vw,16px);max-width:60ch">Acquiring a logic analyzer is the single highest-leverage action remaining. Once the DShot bitstream is verified on-wire, the rest — PID, mixer, CRSF — is just code.</p>
+        <div class="foot">
+          <span>SOURCE · GITHUB</span>
+          <span>FIRMWARE · 933 SLOC</span>
+          <span>© 2026 · RICE · ELEC 327</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deck-controls reveal">
+    <div class="deck-nav">
+      <button class="deck-btn" id="deck-prev">← PREV</button>
+      <button class="deck-btn" id="deck-next">NEXT →</button>
+    </div>
+    <div class="deck-dots" id="deck-dots"></div>
+    <div class="deck-counter"><span class="cur" id="deck-cur">01</span> / <span id="deck-total">10</span></div>
+  </div>
+</section>
+
+<!-- BOM -->
+<section id="bom" data-screen-label="08 BOM">
+  <div class="section-head reveal">
+    <span class="section-num">/ 08</span>
     <h2 class="section-title">Bill of Materials</h2>
     <span class="section-meta">REALDRONEPCB · REV 0.3</span>
   </div>
@@ -1703,9 +2395,9 @@
 </section>
 
 <!-- GALLERY -->
-<section id="gallery" data-screen-label="07 Gallery">
+<section id="gallery" data-screen-label="09 Gallery">
   <div class="section-head reveal">
-    <span class="section-num">/ 07</span>
+    <span class="section-num">/ 09</span>
     <h2 class="section-title">Build Documentation</h2>
     <span class="section-meta">15 PHOTOS · 3 GROUPS</span>
   </div>
@@ -1713,7 +2405,7 @@
   <!-- KiCad designs -->
   <div class="gallery-group">
     <div class="gallery-group-h reveal">
-      <span class="num">/ 07.A</span>
+      <span class="num">/ 09.A</span>
       <span class="label">KiCad &mdash; Layout &amp; Schematic</span>
       <span class="count">04 RENDERS</span>
     </div>
@@ -1728,7 +2420,7 @@
   <!-- Naked Board -->
   <div class="gallery-group">
     <div class="gallery-group-h reveal">
-      <span class="num">/ 07.B</span>
+      <span class="num">/ 09.B</span>
       <span class="label">Bare Board &mdash; Pre-Assembly</span>
       <span class="count">04 PHOTOS</span>
     </div>
@@ -1743,7 +2435,7 @@
   <!-- Assembly + Bench -->
   <div class="gallery-group">
     <div class="gallery-group-h reveal">
-      <span class="num">/ 07.C</span>
+      <span class="num">/ 09.C</span>
       <span class="label">Assembly &amp; Bench Work</span>
       <span class="count">07 PHOTOS</span>
     </div>
@@ -1760,9 +2452,9 @@
 </section>
 
 <!-- DOWNLOADS -->
-<section id="downloads" data-screen-label="08 Downloads">
+<section id="downloads" data-screen-label="10 Downloads">
   <div class="section-head reveal">
-    <span class="section-num">/ 08</span>
+    <span class="section-num">/ 10</span>
     <h2 class="section-title">Resources</h2>
     <span class="section-meta">03 FILES</span>
   </div>
@@ -1883,6 +2575,55 @@
   setTimeout(() => {
     document.querySelectorAll('.hero [data-counter]').forEach(animateCounter);
   }, 600);
+
+  // --- Deck navigation ---
+  (function() {
+    const deck = document.querySelector('section#deck .deck');
+    if (!deck) return;
+    const slides = Array.from(deck.querySelectorAll('.deck-slide'));
+    const prevBtn = document.getElementById('deck-prev');
+    const nextBtn = document.getElementById('deck-next');
+    const curEl = document.getElementById('deck-cur');
+    const totalEl = document.getElementById('deck-total');
+    const dotsHost = document.getElementById('deck-dots');
+    if (!slides.length) return;
+    let idx = 0;
+    const total = slides.length;
+    totalEl.textContent = String(total).padStart(2, '0');
+
+    // build dots
+    const dots = [];
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'deck-dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => go(i));
+      dotsHost.appendChild(d);
+      dots.push(d);
+    }
+
+    function go(n) {
+      idx = Math.max(0, Math.min(total - 1, n));
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      curEl.textContent = String(idx + 1).padStart(2, '0');
+      prevBtn.disabled = idx === 0;
+      nextBtn.disabled = idx === total - 1;
+    }
+
+    prevBtn.addEventListener('click', () => go(idx - 1));
+    nextBtn.addEventListener('click', () => go(idx + 1));
+
+    // keyboard nav when deck is in viewport
+    document.addEventListener('keydown', (e) => {
+      const rect = deck.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(idx - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); go(idx + 1); }
+    });
+
+    go(0);
+  })();
 </script>
 
 <div id="tweaks-root"></div>
