@@ -158,27 +158,25 @@
   .hero-image {
     position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse at 50% 45%, rgba(193, 18, 31, 0.08), transparent 60%),
-      repeating-linear-gradient(
-        135deg,
-        var(--bg-1) 0px,
-        var(--bg-1) 1px,
-        var(--bg-1-soft) 1px,
-        var(--bg-1-soft) 14px
-      );
+      radial-gradient(ellipse at 50% 45%, rgba(193, 18, 31, 0.12), transparent 65%),
+      var(--bg-0);
+    overflow: hidden;
   }
-  .hero-image-label {
+  .hero-image img {
     position: absolute;
-    top: 110px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--fg-muted);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    padding: 6px 12px;
-    border: 1px solid var(--rule);
-    background: rgba(11, 11, 13, 0.7);
-    z-index: 2;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(85vh, 1100px);
+    height: auto;
+    opacity: 0.32;
+    mix-blend-mode: screen;
+    filter: contrast(1.05) saturate(0.85);
+  }
+  .hero-image::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, transparent 25%, rgba(11,11,13,0.75) 75%);
+    z-index: 1;
   }
 
   /* HUD overlay */
@@ -514,45 +512,75 @@
   }
 
   /* ---------- GALLERY ---------- */
+  .gallery-group { margin-bottom: 32px; }
+  .gallery-group:last-child { margin-bottom: 0; }
+  .gallery-group-h {
+    display: flex; align-items: baseline; gap: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .gallery-group-h .num { color: var(--accent); font-size: 11px; letter-spacing: 0.15em; font-weight: 500; }
+  .gallery-group-h .label { color: var(--fg); font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .gallery-group-h .count { color: var(--fg-muted); font-size: 10px; letter-spacing: 0.15em; margin-left: auto; }
+
   .gallery {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-auto-rows: 120px;
-    gap: 16px;
+    grid-auto-rows: 140px;
+    gap: 12px;
   }
   .gal-item {
-    background: repeating-linear-gradient(135deg, var(--bg-1) 0 1px, var(--bg-1-soft) 1px 12px);
+    background: var(--bg-1-soft);
     border: 1px solid var(--rule);
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: pointer;
   }
-  .gal-item:hover { border-color: var(--accent-deep); }
+  .gal-item img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, filter 0.3s ease;
+    filter: brightness(0.92);
+  }
+  .gal-item:hover { border-color: var(--accent); }
+  .gal-item:hover img { transform: scale(1.04); filter: brightness(1.05); }
   .gal-item .label {
     position: absolute;
     bottom: 10px; left: 10px;
-    color: var(--fg-muted);
+    color: var(--fg);
     font-size: 10px;
     letter-spacing: 0.1em;
-    background: var(--bg-0);
+    background: rgba(11,11,13,0.82);
     padding: 4px 8px;
     border: 1px solid var(--rule);
+    z-index: 2;
   }
   .gal-item .idx {
     position: absolute;
     top: 10px; left: 10px;
     color: var(--accent);
     font-size: 10px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
+    background: rgba(11,11,13,0.82);
+    padding: 3px 7px;
+    z-index: 2;
+    font-weight: 500;
   }
+  /* span helpers */
   .g-1 { grid-column: span 6; grid-row: span 3; }
   .g-2 { grid-column: span 3; grid-row: span 2; }
   .g-3 { grid-column: span 3; grid-row: span 2; }
-  .g-4 { grid-column: span 3; grid-row: span 1; }
-  .g-5 { grid-column: span 3; grid-row: span 1; }
-  .g-6 { grid-column: span 4; grid-row: span 2; }
+  .g-4 { grid-column: span 3; grid-row: span 2; }
+  .g-5 { grid-column: span 3; grid-row: span 2; }
+  .g-6 { grid-column: span 6; grid-row: span 2; }
   .g-7 { grid-column: span 4; grid-row: span 2; }
   .g-8 { grid-column: span 4; grid-row: span 2; }
+  .g-9 { grid-column: span 4; grid-row: span 2; }
+  .g-tall { grid-column: span 3; grid-row: span 3; }
+  .g-wide { grid-column: span 6; grid-row: span 2; }
 
   /* ---------- TEAM ---------- */
   .team-grid {
@@ -586,6 +614,414 @@
   .team-name { font-size: 14px; font-weight: 500; }
   .team-role { font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
   .team-meta { font-size: 11px; color: var(--fg-muted); margin-top: auto; }
+
+  /* PCB feature row in Hardware section */
+  .pcb-feature {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .pcb-feature-item {
+    aspect-ratio: 4 / 3;
+    background: var(--bg-1-soft);
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .pcb-feature-item img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .pcb-feature-item .label {
+    position: absolute;
+    bottom: 10px; left: 10px;
+    color: var(--fg);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    background: rgba(11,11,13,0.82);
+    padding: 4px 9px;
+    border: 1px solid var(--rule);
+    z-index: 2;
+  }
+  .pcb-feature-item .tag {
+    position: absolute;
+    top: 10px; left: 10px;
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    z-index: 2;
+    font-weight: 500;
+  }
+  @media (max-width: 720px) {
+    .pcb-feature { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- HARDWARE (Vehicle + PCB cols) ---------- */
+  .hw-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ---------- FIRMWARE ---------- */
+  .fw-intro {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--fg-dim);
+    max-width: 64ch;
+    margin-bottom: 40px;
+  }
+  .fw-intro .fg-acc { color: var(--accent); }
+  .fw-intro .fg { color: var(--fg); }
+
+  .modules {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 48px;
+  }
+  .mod {
+    background: var(--bg-0);
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 140px;
+  }
+  .mod-h { display: flex; justify-content: space-between; align-items: baseline; }
+  .mod-name {
+    font-size: 14px; font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .mod-name .mod-ext { color: var(--fg-muted); font-weight: 400; }
+  .mod-tag {
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    padding: 2px 6px;
+    border: 1px solid var(--accent-deep);
+  }
+  .mod-desc { color: var(--fg-dim); font-size: 12px; line-height: 1.6; }
+
+  /* Centerpiece — DMA + Event Fabric */
+  .centerpiece {
+    border: 1px solid var(--accent-deep);
+    background:
+      linear-gradient(135deg, rgba(193, 18, 31, 0.03), transparent 60%),
+      var(--bg-1-soft);
+    padding: 40px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .centerpiece::before, .centerpiece::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    border-color: var(--accent);
+    border-style: solid;
+  }
+  .centerpiece::before {
+    top: -1px; left: -1px;
+    border-width: 1px 0 0 1px;
+  }
+  .centerpiece::after {
+    bottom: -1px; right: -1px;
+    border-width: 0 1px 1px 0;
+  }
+  .cp-head {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .cp-num {
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+  .cp-tag {
+    color: var(--fg-muted);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .cp-title {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .cp-lead {
+    font-size: 14px;
+    color: var(--fg-dim);
+    line-height: 1.7;
+    max-width: 68ch;
+    margin-bottom: 32px;
+  }
+  .cp-lead .fg { color: var(--fg); }
+
+  .cp-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: stretch;
+    margin-bottom: 28px;
+  }
+  .cp-node {
+    border: 1px solid var(--rule);
+    background: var(--bg-0);
+    padding: 18px 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .cp-node-k {
+    font-size: 9px;
+    color: var(--fg-muted);
+    letter-spacing: 0.2em;
+  }
+  .cp-node-v {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+  }
+  .cp-node-d {
+    font-size: 11px;
+    color: var(--fg-dim);
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+  .cp-arrow {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 6px;
+    min-width: 80px;
+  }
+  .cp-arrow span:first-child {
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+  .cp-arrow-line {
+    width: 100%; height: 1px;
+    background: var(--accent);
+    position: relative;
+  }
+  .cp-arrow-line::after {
+    content: '►';
+    position: absolute;
+    right: -2px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  .cp-result {
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+  }
+  .cp-result-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    font-size: 12px;
+    border-bottom: 1px dashed var(--rule-soft);
+  }
+  .cp-result-row:last-child { border-bottom: 0; }
+  .cp-result-k { color: var(--fg-muted); letter-spacing: 0.05em; text-transform: uppercase; font-size: 11px; }
+  .cp-result-v { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+  .fw-protocol { margin-top: 8px; }
+
+  /* ---------- DEBUG LOG ---------- */
+  .debug-intro {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--fg-dim);
+    max-width: 68ch;
+    margin-bottom: 40px;
+  }
+  .debug-intro .fg-acc { color: var(--accent); }
+
+  .bugs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .bug-card {
+    border: 1px solid var(--rule);
+    background: var(--bg-1-soft);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 18px;
+    position: relative;
+  }
+  .bug-card::before {
+    content: '';
+    position: absolute;
+    left: -1px; top: -1px;
+    width: 40px; height: 2px;
+    background: var(--accent);
+  }
+  .bug-head {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bug-id {
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+  .bug-status {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    padding: 3px 8px;
+    border: 1px solid var(--accent-deep);
+    color: var(--accent);
+  }
+  .bug-title {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .bug-row {
+    display: flex; flex-direction: column; gap: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+  }
+  .bug-k {
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0.15em;
+  }
+  .bug-v {
+    font-size: 12px;
+    color: var(--fg-dim);
+    line-height: 1.65;
+  }
+  .bug-v .mono {
+    color: var(--accent);
+    background: rgba(255, 77, 77, 0.06);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .status-row-b .mono, .cp-result-v .mono {
+    color: var(--accent);
+    background: rgba(255, 77, 77, 0.06);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-size: 0.95em;
+  }
+
+  /* SWD diagnostics callout */
+  .swd-callout {
+    border: 1px solid var(--rule);
+    background: var(--bg-1-soft);
+    padding: 24px 28px;
+    margin: 0 0 48px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .swd-callout-h { display: flex; flex-direction: column; gap: 4px; }
+  .swd-callout-tag {
+    color: var(--accent); font-size: 10px;
+    letter-spacing: 0.2em; font-weight: 500;
+  }
+  .swd-callout-title { font-size: 14px; font-weight: 500; }
+  .swd-callout-sub {
+    color: var(--fg-muted); font-size: 10px;
+    letter-spacing: 0.1em; margin-top: 4px;
+  }
+  .swd-table {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 12px;
+  }
+  .swd-row {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 5px 0;
+    border-bottom: 1px dashed var(--rule-soft);
+  }
+  .swd-row .var { color: var(--accent); }
+  .swd-row .val { color: var(--fg-dim); font-variant-numeric: tabular-nums; }
+  @media (max-width: 720px) {
+    .swd-callout { grid-template-columns: 1fr; }
+    .swd-table { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- STATUS ---------- */
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .status-col {
+    border: 1px solid var(--rule);
+    padding: 28px;
+    background: var(--bg-1-soft);
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .status-col.status-ok { border-top: 2px solid #7CFF6B; }
+  .status-col.status-blocked { border-top: 2px solid var(--accent); }
+
+  .status-h {
+    display: flex; align-items: baseline; gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .status-icon {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .status-col.status-ok .status-icon { color: #7CFF6B; }
+  .status-col.status-blocked .status-icon { color: var(--accent); }
+
+  .status-label {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    flex: 1;
+  }
+  .status-count {
+    color: var(--fg-muted);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+  }
+
+  .status-row {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .status-row-h {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg);
+  }
+  .status-row-b {
+    font-size: 12px;
+    color: var(--fg-dim);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 960px) {
+    .hw-cols { grid-template-columns: 1fr; gap: 32px; }
+    .modules { grid-template-columns: repeat(2, 1fr); }
+    .cp-flow { grid-template-columns: 1fr; }
+    .cp-arrow { flex-direction: row; min-height: 40px; }
+    .cp-arrow-line { width: 1px; height: 100%; min-height: 30px; }
+    .cp-arrow-line::after { right: 50%; top: auto; bottom: -2px; transform: translateX(50%) rotate(90deg); }
+    .bugs-grid { grid-template-columns: 1fr; }
+    .status-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .modules { grid-template-columns: 1fr; }
+    .centerpiece { padding: 24px; }
+  }
 
   /* ---------- BOM ---------- */
   .bom-stats {
@@ -739,13 +1175,14 @@
       <span>ELEC&nbsp;327&nbsp;//&nbsp;SP26</span>
     </div>
     <div class="topbar-right">
-      <a class="nav-link" href="#mission"><span class="num">01</span>MISSION</a>
-      <a class="nav-link" href="#specs"><span class="num">02</span>SPECS</a>
-      <a class="nav-link" href="#reel"><span class="num">03</span>REEL</a>
-      <a class="nav-link" href="#gallery"><span class="num">04</span>GALLERY</a>
-      <a class="nav-link" href="#team"><span class="num">05</span>TEAM</a>
+      <a class="nav-link" href="#overview"><span class="num">01</span>OVERVIEW</a>
+      <a class="nav-link" href="#hardware"><span class="num">02</span>HARDWARE</a>
+      <a class="nav-link" href="#firmware"><span class="num">03</span>FIRMWARE</a>
+      <a class="nav-link" href="#debug"><span class="num">04</span>DEBUG</a>
+      <a class="nav-link" href="#status"><span class="num">05</span>STATUS</a>
       <a class="nav-link" href="#bom"><span class="num">06</span>BOM</a>
-      <a class="nav-link" href="#downloads"><span class="num">07</span>FILES</a>
+      <a class="nav-link" href="#gallery"><span class="num">07</span>GALLERY</a>
+      <a class="nav-link" href="#downloads"><span class="num">08</span>FILES</a>
     </div>
   </div>
 </div>
@@ -755,8 +1192,7 @@
 <!-- HERO -->
 <section class="hero" data-screen-label="Hero">
   <div class="hero-stage">
-    <div class="hero-image"></div>
-    <div class="hero-image-label">[ DRONE_HERO.MP4 · PLACEHOLDER 16:9 ]</div>
+    <div class="hero-image"><img src="assets/FullPCB.jpg" alt="PCB layout"></div>
 
     <div class="hud">
       <div class="hud-grid"></div>
@@ -789,215 +1225,432 @@
     </div>
 
     <h1 class="hero-title">
-      <span class="typed" id="typed-title">QUADROTOR</span><br>
+      <span class="typed" id="typed-title">BARE-METAL</span><br>
       <span class="red">FLIGHT-CTRL</span>
     </h1>
 
     <div class="hero-bottom">
       <p class="hero-desc">
-        <span class="fg">A custom quadrotor platform</span> built from the silicon up — embedded firmware, sensor fusion, and an RF link. Documenting the build, the failures, and the eventual flight.
+        <span class="fg">A custom bare-metal flight controller</span> for a micro-whoop quadcopter — 4-layer PCB, MSPM0G3507 silicon, and a DMA-driven DShot300 motor stack. Stripped-down Betaflight port, built from scratch.
       </p>
       <div class="stat">
-        <div class="stat-label">PAYLOAD</div>
-        <div class="stat-value" data-counter="245" data-suffix=" g">0<span class="unit">g</span></div>
+        <div class="stat-label">FIRMWARE</div>
+        <div class="stat-value" data-counter="933">000<span class="unit">SLOC</span></div>
       </div>
       <div class="stat">
-        <div class="stat-label">FLIGHT TIME</div>
-        <div class="stat-value" data-counter="08" data-suffix=":24">00<span class="unit">min</span></div>
+        <div class="stat-label">BIT PERIOD</div>
+        <div class="stat-value" data-counter="3.33">0.00<span class="unit">µs</span></div>
       </div>
       <div class="stat">
-        <div class="stat-label">MAX VEL</div>
-        <div class="stat-value" data-counter="14" data-suffix=" m/s">00<span class="unit">m/s</span></div>
+        <div class="stat-label">IMU RATE</div>
+        <div class="stat-value" data-counter="1">0<span class="unit">kHz</span></div>
       </div>
     </div>
   </div>
 
-  <div class="scroll-cue">SCROLL // 01—06</div>
+  <div class="scroll-cue">SCROLL // 01—09</div>
 </section>
 
-<!-- MISSION -->
-<section id="mission" data-screen-label="01 Mission">
+<!-- OVERVIEW -->
+<section id="overview" data-screen-label="01 Overview">
   <div class="section-head reveal">
     <span class="section-num">/ 01</span>
-    <h2 class="section-title">Mission &amp; Overview</h2>
-    <span class="section-meta">SP26 — IN PROGRESS</span>
+    <h2 class="section-title">Project Overview</h2>
+    <span class="section-meta">ELEC 327 — FINAL</span>
   </div>
 
   <div class="mission-grid">
     <p class="mission-lead reveal">
-      Design, build, and fly a fully-custom <span class="accent">autonomous quadrotor</span> — from PCB layout and firmware to control loops and live telemetry, in a single semester.
+      A custom <span class="accent">bare-metal flight controller</span> for a micro-whoop class quadcopter — every line of firmware written from scratch against the bare silicon, every trace routed by hand.
     </p>
     <div class="mission-body reveal">
       <p>
-        <span class="fg">// Context.</span> ELEC 327 is Rice's embedded-systems capstone. Teams are given a chassis, a microcontroller, and a problem. Ours: keep it stable, keep it light, keep it cheap.
+        <span class="fg">// Course.</span> ELEC 327 (Digital Systems Lab) at Rice — bare-metal embedded with hard real-time timing requirements. Final project, single semester.
       </p>
       <p>
-        <span class="fg">// Approach.</span> Iterative bring-up. Start with a benchtop motor mixer, layer in IMU sensor fusion, then close the loop on attitude before ever leaving the tether.
+        <span class="fg">// Build.</span> 4-layer custom PCB integrating MCU, 6-DoF IMU, power regulation, radio interface, and a 4-in-1 ESC connector. Every component soldered directly — no breakout boards, no dangling wires.
       </p>
       <p>
-        <span class="fg">// Status.</span> Currently in tethered hover trials. Telemetry link live, attitude PID tuned, altitude hold next.
+        <span class="fg">// Scope.</span> v1 is intentionally minimal: gyro sampling, DShot ESC output, CRSF radio input parsing. USB, OSD, blackbox logging, and GPS are deliberately excluded — unnecessary for micro-whoop class and outside the timebox.
+      </p>
+      <p>
+        <span class="fg">// Tone.</span> Engineering rigor over flight hours. The deliverable is the bring-up — register-level debug, cycle-accurate bit timing, two characterized silicon-level bugs. Motors didn't spin (ESC hardware fault, diagnosed), but the firmware bring-up is complete.
       </p>
     </div>
   </div>
 
   <div class="objectives reveal">
     <div class="obj">
-      <div class="obj-num">OBJ.01</div>
-      <div class="obj-title">Stable Hover</div>
-      <div class="obj-desc">Hold attitude within ±2° on roll/pitch under no-wind conditions for 60 seconds.</div>
+      <div class="obj-num">SCOPE.01</div>
+      <div class="obj-title">Custom PCB</div>
+      <div class="obj-desc">4-layer mixed-signal board with MSPM0 as the computational brain. Partitioned ground planes, length-matched DShot traces, eight test points.</div>
     </div>
     <div class="obj">
-      <div class="obj-num">OBJ.02</div>
-      <div class="obj-title">Closed-Loop Telemetry</div>
-      <div class="obj-desc">Bidirectional 2.4&nbsp;GHz link streaming IMU + battery state at 50&nbsp;Hz to ground station.</div>
+      <div class="obj-num">SCOPE.02</div>
+      <div class="obj-title">Firmware From Scratch</div>
+      <div class="obj-desc">933 SLOC of original C — DShot300 driver, ICM-42688-P SPI driver, fallback PWM, bring-up harness. No external HAL libraries.</div>
     </div>
     <div class="obj">
-      <div class="obj-num">OBJ.03</div>
-      <div class="obj-title">Waypoint Navigation</div>
-      <div class="obj-desc">Stretch goal — autonomous traversal of a 4-point indoor course using fused IMU + optical flow.</div>
+      <div class="obj-num">SCOPE.03</div>
+      <div class="obj-title">DMA + Event Fabric</div>
+      <div class="obj-desc">A new MSPM0 module not covered in lab — on-chip publish/subscribe wiring four DMA channels to a single timer event for zero-CPU motor transmits.</div>
     </div>
   </div>
 </section>
 
-<!-- SPECS -->
-<section id="specs" data-screen-label="02 Specs">
+<!-- HARDWARE -->
+<section id="hardware" data-screen-label="02 Hardware">
   <div class="section-head reveal">
     <span class="section-num">/ 02</span>
-    <h2 class="section-title">Hardware Specifications</h2>
-    <span class="section-meta">REV 0.3 — DRAFT</span>
+    <h2 class="section-title">Hardware</h2>
+    <span class="section-meta">VEHICLE + CUSTOM PCB</span>
   </div>
 
-  <div class="specs-wrap">
-    <div class="specs-diagram reveal">
-      <span class="corner tl"></span>
-      <span class="corner tr"></span>
-      <span class="corner bl"></span>
-      <span class="corner br"></span>
+  <div class="pcb-feature reveal">
+    <div class="pcb-feature-item">
+      <img src="assets/FrontPCB.jpg" alt="PCB front trace layout">
+      <span class="tag">FRONT</span>
+      <span class="label">PCB TRACES &middot; KICAD</span>
+    </div>
+    <div class="pcb-feature-item">
+      <img src="assets/BackPCB.jpg" alt="PCB back trace layout">
+      <span class="tag">BACK</span>
+      <span class="label">GROUND POUR &middot; KICAD</span>
+    </div>
+  </div>
+
+  <div class="hw-cols">
+    <div class="reveal">
+      <div class="spec-group-title">// Vehicle</div>
+      <div class="specs-table">
+        <div class="spec-row"><span class="idx">V.01</span><span class="label">Airframe</span><span class="value">Carbon-fiber micro-whoop</span></div>
+        <div class="spec-row"><span class="idx">V.02</span><span class="label">Motors</span><span class="value">HGLRC Specter 1202.5 &times;&nbsp;4</span></div>
+        <div class="spec-row"><span class="idx">V.03</span><span class="label">Motor KV</span><span class="value">11,000<span class="unit">KV</span></span></div>
+        <div class="spec-row"><span class="idx">V.04</span><span class="label">ESC</span><span class="value">AERO SELFIE 60A 4-in-1</span></div>
+        <div class="spec-row"><span class="idx">V.05</span><span class="label">ESC modes</span><span class="value">PWM &middot; OneShot &middot; DShot</span></div>
+        <div class="spec-row"><span class="idx">V.06</span><span class="label">Battery</span><span class="value">2S LiPo</span></div>
+        <div class="spec-row"><span class="idx">V.07</span><span class="label">Props</span><span class="value">3-blade</span></div>
+      </div>
+
+      <div class="spec-group-title">// Layout Discipline</div>
+      <div class="specs-table">
+        <div class="spec-row"><span class="idx">L.01</span><span class="label">Stack</span><span class="value">4-layer</span></div>
+        <div class="spec-row"><span class="idx">L.02</span><span class="label">Ground</span><span class="value">Partitioned analog / digital</span></div>
+        <div class="spec-row"><span class="idx">L.03</span><span class="label">Tie point</span><span class="value">Single, under MCU</span></div>
+        <div class="spec-row"><span class="idx">L.04</span><span class="label">DShot matching</span><span class="value">&lt; 5<span class="unit">mm</span></span></div>
+      </div>
     </div>
 
     <div class="reveal">
       <div class="spec-group-title">// Compute</div>
       <div class="specs-table">
-        <div class="spec-row"><span class="idx">C.01</span><span class="label">MCU</span><span class="value">MSPM0G3507SPTR (TI)</span></div>
-        <div class="spec-row"><span class="idx">C.02</span><span class="label">Core</span><span class="value">ARM Cortex-M0+</span></div>
-        <div class="spec-row"><span class="idx">C.03</span><span class="label">Crystal</span><span class="value">Y2 &mdash; 30<span class="unit">pF</span> load</span></div>
-        <div class="spec-row"><span class="idx">C.04</span><span class="label">Reset</span><span class="value">SW7 &mdash; SW_RESET</span></div>
+        <div class="spec-row"><span class="idx">C.01</span><span class="label">MCU</span><span class="value">TI MSPM0G3507</span></div>
+        <div class="spec-row"><span class="idx">C.02</span><span class="label">Core</span><span class="value">ARM Cortex-M0+ @ 16<span class="unit">MHz</span></span></div>
+        <div class="spec-row"><span class="idx">C.03</span><span class="label">Oscillator</span><span class="value">32.768<span class="unit">kHz</span> LFXT</span></div>
+        <div class="spec-row"><span class="idx">C.04</span><span class="label">Toolchain</span><span class="value">Code Composer Studio</span></div>
       </div>
 
       <div class="spec-group-title">// Sensors</div>
       <div class="specs-table">
-        <div class="spec-row"><span class="idx">S.01</span><span class="label">IMU (U1)</span><span class="value">ICM-42688-P (6-DoF)</span></div>
-        <div class="spec-row"><span class="idx">S.02</span><span class="label">IMU decoupling</span><span class="value">2.2&micro;F &middot; 0.1&micro;F &middot; 10nF</span></div>
-        <div class="spec-row"><span class="idx">S.03</span><span class="label">I&sup2;C pull-ups</span><span class="value">4.7<span class="unit">kΩ</span> &times; 2</span></div>
+        <div class="spec-row"><span class="idx">S.01</span><span class="label">IMU</span><span class="value">InvenSense ICM-42688-P</span></div>
+        <div class="spec-row"><span class="idx">S.02</span><span class="label">Channels</span><span class="value">6-axis &mdash; gyro + accel</span></div>
+        <div class="spec-row"><span class="idx">S.03</span><span class="label">Interface</span><span class="value">SPI</span></div>
+        <div class="spec-row"><span class="idx">S.04</span><span class="label">Sample rate</span><span class="value">1<span class="unit">kHz</span></span></div>
       </div>
 
-      <div class="spec-group-title">// Power</div>
+      <div class="spec-group-title">// Power &amp; I/O</div>
       <div class="specs-table">
-        <div class="spec-row"><span class="idx">P.01</span><span class="label">Regulator (U3)</span><span class="value">LT1763CS8-3.3 LDO</span></div>
-        <div class="spec-row"><span class="idx">P.02</span><span class="label">Tank cap</span><span class="value">0.47<span class="unit">µF</span> (TANK-C4)</span></div>
-        <div class="spec-row"><span class="idx">P.03</span><span class="label">Bulk caps</span><span class="value">10µF &middot; 1µF &middot; 0.01µF</span></div>
-        <div class="spec-row"><span class="idx">P.04</span><span class="label">VCORE / VDD</span><span class="value">0.47µF / 0.1µF</span></div>
-      </div>
-
-      <div class="spec-group-title">// I/O</div>
-      <div class="specs-table">
-        <div class="spec-row"><span class="idx">I.01</span><span class="label">Motor conn (J1)</span><span class="value">8-pin socket (M1–M4 + GND)</span></div>
-        <div class="spec-row"><span class="idx">I.02</span><span class="label">Aux conn (J2)</span><span class="value">5-pin programming / RC</span></div>
-        <div class="spec-row"><span class="idx">I.03</span><span class="label">Buzzer (BZ1)</span><span class="value">Piezo</span></div>
-        <div class="spec-row"><span class="idx">I.04</span><span class="label">Switches</span><span class="value">SW5 SPDT &middot; SW6 BOOT &middot; SW7 RESET</span></div>
-        <div class="spec-row"><span class="idx">I.05</span><span class="label">Test points</span><span class="value">TP1–TP8 &mdash; 8 pads</span></div>
+        <div class="spec-row"><span class="idx">P.01</span><span class="label">Regulator</span><span class="value">LT1763CS8-3.3 LDO</span></div>
+        <div class="spec-row"><span class="idx">P.02</span><span class="label">Self-powered</span><span class="value">Untethered from 2S pack</span></div>
+        <div class="spec-row"><span class="idx">P.03</span><span class="label">ESC conn</span><span class="value">8-pin &mdash; 4&times; DShot + VBAT</span></div>
+        <div class="spec-row"><span class="idx">P.04</span><span class="label">Radio conn</span><span class="value">5-pin &mdash; CRSF header</span></div>
+        <div class="spec-row"><span class="idx">P.05</span><span class="label">User I/O</span><span class="value">SPDT &middot; arm &middot; reset &middot; piezo</span></div>
+        <div class="spec-row"><span class="idx">P.06</span><span class="label">Test points</span><span class="value">8 &mdash; key signals</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- VIDEO REEL -->
-<section id="reel" data-screen-label="03 Reel">
+<!-- FIRMWARE -->
+<section id="firmware" data-screen-label="03 Firmware">
   <div class="section-head reveal">
     <span class="section-num">/ 03</span>
-    <h2 class="section-title">Flight Reel</h2>
-    <span class="section-meta">04 CLIPS</span>
+    <h2 class="section-title">Firmware Architecture</h2>
+    <span class="section-meta">933 SLOC · 6 MODULES · 0 EXTERNAL DEPS</span>
   </div>
 
-  <div class="video-reel">
-    <div class="video-main reveal"></div>
-    <div class="video-side">
-      <div class="video-thumb reveal">
-        <span class="video-thumb-time">00:42</span>
-        <span class="video-thumb-label"><span class="num">01 //</span> BENCH MOTOR TEST</span>
+  <div class="fw-intro reveal">
+    <p>
+      Bare-metal C against the MSPM0 silicon. No HAL, no RTOS, no external frameworks &mdash; just a linker script, an ISR vector, and direct register manipulation. Written in TI <span class="fg-acc">Code Composer Studio</span>, structured around four drivers and two bring-up mains. Every <span class="fg">volatile</span> in the project is reachable from a CCS Expressions watch &mdash; debug is over SWD, not over print.
+    </p>
+  </div>
+
+  <div class="modules reveal">
+    <div class="mod">
+      <div class="mod-h">
+        <span class="mod-name">dshot.c<span class="mod-ext"> / .h</span></span>
+        <span class="mod-tag">DRIVER</span>
       </div>
-      <div class="video-thumb reveal">
-        <span class="video-thumb-time">01:18</span>
-        <span class="video-thumb-label"><span class="num">02 //</span> FIRST TETHERED HOVER</span>
+      <div class="mod-desc">DShot300 · 4 motors · DMA-driven timer PWM. TIMA1 covers M1+M2, TIMG8 covers M3, TIMA0 covers M4 &mdash; all sourced from TIMA1's Z event.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-h">
+        <span class="mod-name">imu.c<span class="mod-ext"> / .h</span></span>
+        <span class="mod-tag">DRIVER</span>
       </div>
-      <div class="video-thumb reveal">
-        <span class="video-thumb-time">02:05</span>
-        <span class="video-thumb-label"><span class="num">03 //</span> PID TUNING — RUN 14</span>
+      <div class="mod-desc">ICM-42688-P over SPI1. Soft-reset → WHO_AM_I=0x47 → gyro+accel low-noise. Polled 14-byte burst at 1&nbsp;kHz.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-h">
+        <span class="mod-name">pwm.c<span class="mod-ext"> / .h</span></span>
+        <span class="mod-tag">FALLBACK</span>
       </div>
+      <div class="mod-desc">50&nbsp;Hz servo PWM, 1000–2000&nbsp;µs. Same pin assignment as DShot, no DMA. Abandoned for bring-up; kept compilable.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-h">
+        <span class="mod-name">delay.c<span class="mod-ext"> / .h</span></span>
+        <span class="mod-tag">UTIL</span>
+      </div>
+      <div class="mod-desc">Cycle-accurate busy-wait. TI BSD-3 reproduction; only third-party code in the tree.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-h">
+        <span class="mod-name">dshot_test.c</span>
+        <span class="mod-tag">MAIN</span>
+      </div>
+      <div class="mod-desc">Active bring-up main. 10&nbsp;kHz scheduler, staged diagnostic (arm → beep-sweep → spin-sweep → all-spin), plus <span class="fg-acc">PIN_WALK_TEST</span> macro for SWD-readable pad sanity check.</div>
+    </div>
+    <div class="mod">
+      <div class="mod-h">
+        <span class="mod-name">pwm_test.c</span>
+        <span class="mod-tag">EXCLUDED</span>
+      </div>
+      <div class="mod-desc">Alternate main using <code>pwm.c</code>. Built to bisect &ldquo;motors won't spin&rdquo; into MCU-vs-ESC. Currently excluded from build.</div>
+    </div>
+  </div>
+
+  <!-- SWD diagnostics callout -->
+  <div class="swd-callout reveal">
+    <div class="swd-callout-h">
+      <div class="swd-callout-tag">SWD DIAGNOSTICS</div>
+      <div class="swd-callout-title">No print. No scope.</div>
+      <div class="swd-callout-sub">JUST VOLATILE COUNTERS THAT CLIMB.</div>
+    </div>
+    <div class="swd-table">
+      <div class="swd-row"><span class="var">dshot_frames_started</span><span class="val">~1000/s</span></div>
+      <div class="swd-row"><span class="var">dshot_frames_skipped</span><span class="val">0</span></div>
+      <div class="swd-row"><span class="var">dshot_align_locked</span><span class="val">~1000/s</span></div>
+      <div class="swd-row"><span class="var">dshot_align_misses</span><span class="val">0</span></div>
+      <div class="swd-row"><span class="var">dshot_dbg_tima1_ccpd</span><span class="val">0x3</span></div>
+      <div class="swd-row"><span class="var">dshot_dbg_timg8_ccpd</span><span class="val">0x2</span></div>
+      <div class="swd-row"><span class="var">dshot_dbg_tima0_ccpd</span><span class="val">0x2</span></div>
+      <div class="swd-row"><span class="var">dshot_dbg_tima1_fpub0</span><span class="val">EVT_CH 1</span></div>
+      <div class="swd-row"><span class="var">imu_who_am_i_seen</span><span class="val">0x47</span></div>
+      <div class="swd-row"><span class="var">imu_init_status</span><span class="val">IMU_STATUS_OK</span></div>
+      <div class="swd-row"><span class="var">imu_sample_count</span><span class="val">~1000/s</span></div>
+      <div class="swd-row"><span class="var">imu_read_failures</span><span class="val">0</span></div>
+      <div class="swd-row"><span class="var">tick_count_10khz</span><span class="val">~10000/s</span></div>
+      <div class="swd-row"><span class="var">boot_seconds</span><span class="val">climbing</span></div>
+      <div class="swd-row"><span class="var">diag_phase</span><span class="val">0–3</span></div>
+      <div class="swd-row"><span class="var">pinwalk_ok[0..3]</span><span class="val">1, 1, 1, 1</span></div>
+    </div>
+  </div>
+
+  <!-- CENTERPIECE: DMA + EVENT FABRIC -->
+  <div class="centerpiece reveal">
+    <div class="cp-head">
+      <span class="cp-num">CENTERPIECE</span>
+      <span class="cp-tag">NEW MSPM0 MODULE — NOT COVERED IN LAB</span>
+    </div>
+    <h3 class="cp-title">DMA + Event Fabric</h3>
+    <p class="cp-lead">
+      The MSPM0's <span class="fg">event fabric</span> is an on-chip publish/subscribe bus &mdash; peripherals broadcast events onto numbered channels; other peripherals subscribe. We wired four DMA channels to a single timer event for zero-CPU motor transmits.
+    </p>
+
+    <div class="cp-flow">
+      <div class="cp-node">
+        <div class="cp-node-k">PUBLISHER</div>
+        <div class="cp-node-v">TIMA1</div>
+        <div class="cp-node-d">Z event &mdash; fires every 53 ticks (≈3.31&nbsp;µs) at start of each DShot bit period. LOAD = 53, BIT1 HIGH = 39, BIT0 HIGH = 19.</div>
+      </div>
+      <div class="cp-arrow">
+        <span>FABRIC CH 1</span>
+        <span class="cp-arrow-line"></span>
+      </div>
+      <div class="cp-node">
+        <div class="cp-node-k">SUBSCRIBERS</div>
+        <div class="cp-node-v">DMA &times; 4</div>
+        <div class="cp-node-d">One channel per motor, each preloaded with a 17-halfword frame buffer. Auto-advances source, fixed destination at the timer's CC register.</div>
+      </div>
+    </div>
+
+    <div class="cp-result">
+      <div class="cp-result-row"><span class="cp-result-k">CPU during transmit</span><span class="cp-result-v">0%</span></div>
+      <div class="cp-result-row"><span class="cp-result-k">CPU per frame</span><span class="cp-result-v">stage one 17-halfword buffer, arm DMA</span></div>
+      <div class="cp-result-row"><span class="cp-result-k">Frame time</span><span class="cp-result-v">≈56&nbsp;µs</span></div>
+      <div class="cp-result-row"><span class="cp-result-k">CCUPD mode</span><span class="cp-result-v">IMMEDIATE (not shadow-on-Z)</span></div>
+      <div class="cp-result-row"><span class="cp-result-k">Without DMA</span><span class="cp-result-v">&gt; 50% CPU for a single motor</span></div>
+    </div>
+  </div>
+
+  <div class="fw-protocol reveal">
+    <div class="spec-group-title">// DShot300 Bit Timing</div>
+    <div class="specs-table">
+      <div class="spec-row"><span class="idx">D.01</span><span class="label">Baud</span><span class="value">300<span class="unit">kbit/s</span></span></div>
+      <div class="spec-row"><span class="idx">D.02</span><span class="label">Frame</span><span class="value">16-bit &mdash; 11 throttle + 1 telem + 4 CRC</span></div>
+      <div class="spec-row"><span class="idx">D.03</span><span class="label">Bit period (LOAD)</span><span class="value">53 ticks · 62.5<span class="unit">ns</span>/tick</span></div>
+      <div class="spec-row"><span class="idx">D.04</span><span class="label">BIT1 HIGH</span><span class="value">39 ticks ≈ 2.44<span class="unit">µs</span></span></div>
+      <div class="spec-row"><span class="idx">D.05</span><span class="label">BIT0 HIGH</span><span class="value">19 ticks ≈ 1.19<span class="unit">µs</span></span></div>
+      <div class="spec-row"><span class="idx">D.06</span><span class="label">Spec bit period</span><span class="value">≈3.33<span class="unit">µs</span> (300<span class="unit">kbit/s</span>)</span></div>
+      <div class="spec-row"><span class="idx">D.07</span><span class="label">Idle parking</span><span class="value">GPIO PF=1, driven LOW between frames</span></div>
+    </div>
+  </div>
+
+  <div class="fw-protocol reveal">
+    <div class="spec-group-title">// Pin Map &mdash; Motor Outputs</div>
+    <div class="specs-table">
+      <div class="spec-row"><span class="idx">M1</span><span class="label">PB17 · PINCM 43</span><span class="value">PF=5 → TIMA1_CCP0</span></div>
+      <div class="spec-row"><span class="idx">M2</span><span class="label">PB18 · PINCM 44</span><span class="value">PF=5 → TIMA1_CCP1</span></div>
+      <div class="spec-row"><span class="idx">M3</span><span class="label">PB19 · PINCM 45</span><span class="value">PF=4 → TIMG8_CCP1</span></div>
+      <div class="spec-row"><span class="idx">M4</span><span class="label">PB20 · PINCM 48</span><span class="value">PF=7 → TIMA0_CCP1</span></div>
+    </div>
+  </div>
+
+  <div class="fw-protocol reveal">
+    <div class="spec-group-title">// Scheduler &mdash; TIMG0 @ 10 kHz</div>
+    <div class="specs-table">
+      <div class="spec-row"><span class="idx">T+0</span><span class="label">100 µs offset 0</span><span class="value">diag_stage() + dshot_transmit()</span></div>
+      <div class="spec-row"><span class="idx">T+1</span><span class="label">100 µs offset 1</span><span class="value">dshot_park() &mdash; redundant safety park</span></div>
+      <div class="spec-row"><span class="idx">T+5</span><span class="label">100 µs offset 5</span><span class="value">imu_poll_due = true → 14-byte burst read</span></div>
+      <div class="spec-row"><span class="idx">--</span><span class="label">DShot frame rate</span><span class="value">1<span class="unit">kHz</span></span></div>
+      <div class="spec-row"><span class="idx">--</span><span class="label">IMU sample rate</span><span class="value">1<span class="unit">kHz</span></span></div>
     </div>
   </div>
 </section>
 
-<!-- GALLERY -->
-<section id="gallery" data-screen-label="04 Gallery">
+<!-- DEBUG LOG -->
+<section id="debug" data-screen-label="04 Debug">
   <div class="section-head reveal">
     <span class="section-num">/ 04</span>
-    <h2 class="section-title">Build Documentation</h2>
-    <span class="section-meta">08 ASSETS</span>
+    <h2 class="section-title">Debug Log</h2>
+    <span class="section-meta">03 BUGS · ALL FIXED 2026.05.15</span>
   </div>
 
-  <div class="gallery">
-    <div class="gal-item g-1 reveal"><span class="idx">IMG.01</span><span class="label">[ DRONE_HERO_SHOT.JPG ]</span></div>
-    <div class="gal-item g-2 reveal"><span class="idx">IMG.02</span><span class="label">[ PCB_TOP.JPG ]</span></div>
-    <div class="gal-item g-3 reveal"><span class="idx">IMG.03</span><span class="label">[ PCB_BOTTOM.JPG ]</span></div>
-    <div class="gal-item g-4 reveal"><span class="idx">IMG.04</span><span class="label">[ MOTOR_BENCH.JPG ]</span></div>
-    <div class="gal-item g-5 reveal"><span class="idx">IMG.05</span><span class="label">[ FRAME_ASSY.JPG ]</span></div>
-    <div class="gal-item g-6 reveal"><span class="idx">IMG.06</span><span class="label">[ SCOPE_TRACE.JPG ]</span></div>
-    <div class="gal-item g-7 reveal"><span class="idx">IMG.07</span><span class="label">[ FLIGHT_TEST.JPG ]</span></div>
-    <div class="gal-item g-8 reveal"><span class="idx">IMG.08</span><span class="label">[ TEAM_LAB.JPG ]</span></div>
+  <p class="debug-intro reveal">
+    Three genuine silicon-level bugs surfaced during DShot bring-up. All required SWD-attached register inspection to characterize &mdash; no oscilloscope, no logic analyzer. The debugging methodology is the methodology: every <span class="fg-acc">volatile</span> is in an Expressions watch, every fault is a hypothesis ratified by a counter that does or doesn't climb.
+  </p>
+
+  <div class="bugs-grid">
+    <div class="bug-card reveal">
+      <div class="bug-head">
+        <span class="bug-id">BUG &middot; A</span>
+        <span class="bug-status">FIXED</span>
+      </div>
+      <h3 class="bug-title">Missing CCPD Register Configuration</h3>
+      <div class="bug-row">
+        <div class="bug-k">SYMPTOM</div>
+        <div class="bug-v">Lines effectively Hi-Z during DShot transmits &mdash; ESC saw nothing on the wire.</div>
+      </div>
+      <div class="bug-row">
+        <div class="bug-k">ROOT CAUSE</div>
+        <div class="bug-v">Every GPTimer has a Capture/Compare Pin Direction (<span class="mono">CCPD</span>) register that defaults to <span class="mono">INPUT</span> on reset. The compare engine was configured correctly, but the pad multiplexer was never told to route timer output to the pin.</div>
+      </div>
+      <div class="bug-row">
+        <div class="bug-k">FIX</div>
+        <div class="bug-v">Explicit read-modify-write to set <span class="mono">CCPD</span> to <span class="mono">OUTPUT</span> per channel before any transmit attempt.</div>
+      </div>
+    </div>
+
+    <div class="bug-card reveal">
+      <div class="bug-head">
+        <span class="bug-id">BUG &middot; B</span>
+        <span class="bug-status">FIXED</span>
+      </div>
+      <h3 class="bug-title">Trailing-HIGH Idle Between Frames</h3>
+      <div class="bug-row">
+        <div class="bug-k">SYMPTOM</div>
+        <div class="bug-v">BLHeli_S played its lost-signal chime forever even though every frame appeared correct on the wire. ESC never armed.</div>
+      </div>
+      <div class="bug-row">
+        <div class="bug-k">ROOT CAUSE</div>
+        <div class="bug-v">Original <span class="mono">dshot_transmit()</span> left the line HIGH for ~43&nbsp;µs after every frame &mdash; the timer's post-bit QUIET period. Some BLHeli_S decoders refuse to lock if idle isn't actually idle.</div>
+      </div>
+      <div class="bug-row">
+        <div class="bug-k">FIX</div>
+        <div class="bug-v"><span class="mono">dshot_transmit()</span> now blocks ~56&nbsp;µs for DMA completion, then re-mux's the pins to GPIO PF=1 driving LOW. Every frame ends with a clean falling edge.</div>
+      </div>
+    </div>
+
+    <div class="bug-card reveal">
+      <div class="bug-head">
+        <span class="bug-id">BUG &middot; C</span>
+        <span class="bug-status">FIXED</span>
+      </div>
+      <h3 class="bug-title">DMA-Enable / Z-Event Race on Bit 15</h3>
+      <div class="bug-row">
+        <div class="bug-k">SYMPTOM</div>
+        <div class="bug-v">10–20% of frames silently lost bit&nbsp;15, failed CRC, and were rejected by the ESC. Intermittent &mdash; impossible to catch on a scope without statistical capture.</div>
+      </div>
+      <div class="bug-row">
+        <div class="bug-k">ROOT CAUSE</div>
+        <div class="bug-v">Old order was: enable DMA → clear <span class="mono">RIS.Z</span> → wait for Z. A Z pulse landing in the ~5-cycle window between enable and clear caused DMA to silently consume bit 15, then the CPU spin-wait caught bit 14's Z and flipped pins one bit late.</div>
+      </div>
+      <div class="bug-row">
+        <div class="bug-k">FIX</div>
+        <div class="bug-v">Two-stage Z sync. Spin once to land at a known counter position, then ack + enable DMA inside the post-Z quiet window, then spin again &mdash; the second Z is guaranteed to be the same one DMA fires on. Worst-case spin: ~6.6&nbsp;µs.</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- TEAM -->
-<section id="team" data-screen-label="05 Team">
+<!-- STATUS -->
+<section id="status" data-screen-label="05 Status">
   <div class="section-head reveal">
     <span class="section-num">/ 05</span>
-    <h2 class="section-title">Crew</h2>
-    <span class="section-meta">04 OPERATORS</span>
+    <h2 class="section-title">Status &amp; Outcomes</h2>
+    <span class="section-meta">HONEST POSTMORTEM</span>
   </div>
 
-  <div class="team-grid">
-    <div class="team-card reveal">
-      <div class="team-avatar"><span class="corner tl"></span><span class="corner br"></span></div>
-      <div>
-        <div class="team-role">// FIRMWARE</div>
-        <div class="team-name">[ MEMBER_01 ]</div>
+  <div class="status-grid">
+    <div class="status-col reveal status-ok">
+      <div class="status-h">
+        <span class="status-icon">✓</span>
+        <span class="status-label">VERIFIED</span>
+        <span class="status-count">03</span>
       </div>
-      <div class="team-meta">CTRL · IMU FUSION · RTOS</div>
+      <div class="status-row">
+        <div class="status-row-h">IMU Subsystem</div>
+        <div class="status-row-b"><span class="mono">imu_who_am_i_seen = 0x47</span>. 1&nbsp;kHz polled sample loop climbing <span class="mono">imu_sample_count</span> at ~1000/s. Tilt produces expected sensor deltas. <span class="mono">imu_read_failures = 0</span>.</div>
+      </div>
+      <div class="status-row">
+        <div class="status-row-h">DShot Driver (register-level)</div>
+        <div class="status-row-b"><span class="mono">dshot_frames_started</span> climbs at ~1000/s. <span class="mono">dshot_frames_skipped = 0</span>. All three <span class="mono">dshot_dbg_*_ccpd</span> read their expected OUTPUT masks. Two-stage Z sync locks every frame. Awaiting <span class="fg-acc">hardware verification</span> &mdash; no scope or logic analyzer has been on the wire yet.</div>
+      </div>
+      <div class="status-row">
+        <div class="status-row-h">Standalone Power &amp; Scheduler</div>
+        <div class="status-row-b">PCB powers up independently and runs untethered from the 2S pack. TIMG0 10&nbsp;kHz scheduler stable; <span class="mono">tick_count_10khz</span> climbs by 10000/s without slip.</div>
+      </div>
     </div>
-    <div class="team-card reveal">
-      <div class="team-avatar"><span class="corner tl"></span><span class="corner br"></span></div>
-      <div>
-        <div class="team-role">// HARDWARE</div>
-        <div class="team-name">[ MEMBER_02 ]</div>
+
+    <div class="status-col reveal status-blocked">
+      <div class="status-h">
+        <span class="status-icon">×</span>
+        <span class="status-label">BLOCKED</span>
+        <span class="status-count">03</span>
       </div>
-      <div class="team-meta">PCB · POWER · WIRING</div>
-    </div>
-    <div class="team-card reveal">
-      <div class="team-avatar"><span class="corner tl"></span><span class="corner br"></span></div>
-      <div>
-        <div class="team-role">// MECHANICAL</div>
-        <div class="team-name">[ MEMBER_03 ]</div>
+      <div class="status-row">
+        <div class="status-row-h">Motor Actuation</div>
+        <div class="status-row-b">ESC never locked onto the protocol in initial bring-up trials &mdash; root cause not yet isolated to firmware vs. ESC config vs. wiring. The driver passes every SWD-readable sanity check; the next step is <span class="fg-acc">probing the actual wire</span> with a logic analyzer.</div>
       </div>
-      <div class="team-meta">FRAME · CAD · ASSY</div>
-    </div>
-    <div class="team-card reveal">
-      <div class="team-avatar"><span class="corner tl"></span><span class="corner br"></span></div>
-      <div>
-        <div class="team-role">// COMMS</div>
-        <div class="team-name">[ MEMBER_04 ]</div>
+      <div class="status-row">
+        <div class="status-row-h">Gyro PID</div>
+        <div class="status-row-b">Not started. Will need PT1 / biquad LPF on raw gyro samples first. Gyro data is live and ready; the control loop has no actuator to close on.</div>
       </div>
-      <div class="team-meta">RF · TELEMETRY · GROUND-STATION</div>
+      <div class="status-row">
+        <div class="status-row-h">CRSF Radio</div>
+        <div class="status-row-b">Header on the board, parser scoped. Deferred &mdash; same root cause. No point parsing setpoints with nothing to drive.</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1049,10 +1702,67 @@
   </div>
 </section>
 
-<!-- DOWNLOADS -->
-<section id="downloads" data-screen-label="07 Downloads">
+<!-- GALLERY -->
+<section id="gallery" data-screen-label="07 Gallery">
   <div class="section-head reveal">
     <span class="section-num">/ 07</span>
+    <h2 class="section-title">Build Documentation</h2>
+    <span class="section-meta">15 PHOTOS · 3 GROUPS</span>
+  </div>
+
+  <!-- KiCad designs -->
+  <div class="gallery-group">
+    <div class="gallery-group-h reveal">
+      <span class="num">/ 07.A</span>
+      <span class="label">KiCad &mdash; Layout &amp; Schematic</span>
+      <span class="count">04 RENDERS</span>
+    </div>
+    <div class="gallery">
+      <div class="gal-item g-1 reveal"><img src="assets/FullPCB.jpg" alt="Full PCB layout"><span class="idx">IMG.01</span><span class="label">FullPCB · LAYOUT</span></div>
+      <div class="gal-item g-2 reveal"><img src="assets/FrontPCB.jpg" alt="Front PCB"><span class="idx">IMG.02</span><span class="label">FrontPCB</span></div>
+      <div class="gal-item g-3 reveal"><img src="assets/BackPCB.jpg" alt="Back PCB"><span class="idx">IMG.03</span><span class="label">BackPCB</span></div>
+      <div class="gal-item g-wide reveal"><img src="assets/PCBschematic.jpg" alt="PCB schematic"><span class="idx">IMG.04</span><span class="label">PCBschematic</span></div>
+    </div>
+  </div>
+
+  <!-- Naked Board -->
+  <div class="gallery-group">
+    <div class="gallery-group-h reveal">
+      <span class="num">/ 07.B</span>
+      <span class="label">Bare Board &mdash; Pre-Assembly</span>
+      <span class="count">04 PHOTOS</span>
+    </div>
+    <div class="gallery">
+      <div class="gal-item g-2 reveal"><img src="assets/FrontFullPCB.jpg" alt="Front of soldered PCB"><span class="idx">IMG.05</span><span class="label">FrontFullPCB</span></div>
+      <div class="gal-item g-3 reveal"><img src="assets/BackFullPCB.jpg" alt="Back of soldered PCB"><span class="idx">IMG.06</span><span class="label">BackFullPCB</span></div>
+      <div class="gal-item g-4 reveal"><img src="assets/NakedPCBfront.jpg" alt="Bare PCB front"><span class="idx">IMG.07</span><span class="label">NakedPCBfront</span></div>
+      <div class="gal-item g-5 reveal"><img src="assets/NakedPCBback.jpg" alt="Bare PCB back"><span class="idx">IMG.08</span><span class="label">NakedPCBback</span></div>
+    </div>
+  </div>
+
+  <!-- Assembly + Bench -->
+  <div class="gallery-group">
+    <div class="gallery-group-h reveal">
+      <span class="num">/ 07.C</span>
+      <span class="label">Assembly &amp; Bench Work</span>
+      <span class="count">07 PHOTOS</span>
+    </div>
+    <div class="gallery">
+      <div class="gal-item g-wide reveal"><img src="assets/ExposedDroneOverall.jpg" alt="Exposed drone with Launchpad"><span class="idx">IMG.09</span><span class="label">ExposedDroneOverall</span></div>
+      <div class="gal-item g-2 reveal"><img src="assets/NakedFullStack.jpg" alt="Naked full stack"><span class="idx">IMG.10</span><span class="label">NakedFullStack</span></div>
+      <div class="gal-item g-3 reveal"><img src="assets/ExposedESCview2.jpg" alt="Exposed ESC view"><span class="idx">IMG.11</span><span class="label">ExposedESCview2</span></div>
+      <div class="gal-item g-7 reveal"><img src="assets/CloseUpOnStack.jpg" alt="Close up on stack"><span class="idx">IMG.12</span><span class="label">CloseUpOnStack</span></div>
+      <div class="gal-item g-8 reveal"><img src="assets/BatteryOnDrone.jpg" alt="Battery on drone"><span class="idx">IMG.13</span><span class="label">BatteryOnDrone</span></div>
+      <div class="gal-item g-9 reveal"><img src="assets/CustomBatteryJob.jpg" alt="Custom battery harness"><span class="idx">IMG.14</span><span class="label">CustomBatteryJob</span></div>
+      <div class="gal-item g-wide reveal"><img src="assets/Custom3DPrint.jpg" alt="Custom 3D-printed frame piece"><span class="idx">IMG.15</span><span class="label">Custom3DPrint</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section id="downloads" data-screen-label="08 Downloads">
+  <div class="section-head reveal">
+    <span class="section-num">/ 08</span>
     <h2 class="section-title">Resources</h2>
     <span class="section-meta">03 FILES</span>
   </div>
@@ -1064,7 +1774,7 @@
         <span class="dl-ext">PDF · 2.4MB</span>
       </div>
       <div class="dl-title">Final Report</div>
-      <div class="dl-desc">Full project writeup — design decisions, control theory derivations, test results, lessons learned.</div>
+      <div class="dl-desc">Full project writeup &mdash; PCB design, firmware architecture, DMA + event-fabric centerpiece, two characterized bugs, postmortem.</div>
       <div class="dl-foot"><span>DOWNLOAD</span><span class="arrow">→</span></div>
     </a>
     <a class="dl-card reveal" href="#">
@@ -1092,8 +1802,8 @@
 
 <footer>
   <div>
-    <div class="footer-mark">QUADROTOR<span style="color: var(--accent-deep);">.</span></div>
-    <div>© 2026 — RICE UNIVERSITY · ELEC 327 · ALL TELEMETRY SIMULATED</div>
+    <div class="footer-mark">MSPM0<span style="color: var(--accent-deep);">.</span></div>
+    <div>© 2026 — RICE UNIVERSITY · ELEC 327 · BARE-METAL FLIGHT-CTRL</div>
   </div>
   <div style="text-align: right;">
     <div>BUILD&nbsp;//&nbsp;<span style="color: var(--fg-dim)">v0.3.0-alpha</span></div>
@@ -1132,17 +1842,21 @@
 
   // --- Counters ---
   function animateCounter(el) {
-    const target = parseFloat(el.dataset.counter);
+    const raw = el.dataset.counter;
+    const target = parseFloat(raw);
     const suffix = el.dataset.suffix || '';
     if (isNaN(target)) return;
+    // detect decimal places from the source string
+    const dotIdx = String(raw).indexOf('.');
+    const decimals = dotIdx >= 0 ? String(raw).length - dotIdx - 1 : 0;
     const dur = 1400;
     const start = performance.now();
     function frame(now) {
       const t = Math.min(1, (now - start) / dur);
       const eased = 1 - Math.pow(1 - t, 3);
       const val = target * eased;
-      const display = target >= 100 ? Math.round(val) : val.toFixed(target % 1 === 0 ? 0 : 1);
-      // preserve unit span if present
+      const display = decimals > 0 ? val.toFixed(decimals)
+                      : (target >= 100 ? Math.round(val) : Math.round(val));
       const unitEl = el.querySelector('.unit');
       const unitHTML = unitEl ? unitEl.outerHTML : '';
       el.innerHTML = display + (unitHTML ? unitHTML : suffix);
@@ -1187,7 +1901,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "redGlow": true,
   "hud": true,
   "density": "regular",
-  "heroTitle": "QUADROTOR",
+  "heroTitle": "BARE-METAL",
   "heroSubtitle": "FLIGHT-CTRL"
 }/*EDITMODE-END*/;
 
